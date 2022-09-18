@@ -24,17 +24,24 @@ pipeline{
                 source venv/bin/activate
                 pip3 install -r requirements.txt
                 pip3 install pylint
+                pip3 install pytest
                 '''
             }
         }                                               
         stage("Lint"){
             steps{
-                sh "pylint --fail-under=10 src"
+                sh '''
+                source venv/bin/activate
+                pylint --fail-under=10 src
+                '''
             }
         }
         stage("Test"){
             steps{
-                sh "pytest tests"
+                sh '''
+                source venv/bin/activate
+                pytest tests
+                '''
             }
         }
         stage("Build"){
