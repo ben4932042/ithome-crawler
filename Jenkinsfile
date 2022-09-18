@@ -48,7 +48,7 @@ pipeline{
         }
         stage("Build"){
             steps{
-                echo "docker build -t ${IMAGE_REFERENCE} ."
+                sh "docker build -t ${IMAGE_REFERENCE} ."
             }
         }
         stage("Push"){
