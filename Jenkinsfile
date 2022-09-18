@@ -26,14 +26,7 @@ pipeline{
                 pip3 install pylint
                 '''
             }
-        }
-        stage("Pull github project"){
-            steps{
-                sh "git clone https://github.com/ben4932042/jenkins-ithome.git"
-                sh "cd jenkins-ithome && git checkout -f day16"
-                sh "mv jenkins-ithome/jobs/ithome-iron-post-check-cronjob/* ."
-            }
-        }                                                
+        }                                               
         stage("Lint"){
             steps{
                 sh "pylint --fail-under=10 src"
