@@ -4,7 +4,7 @@ pipeline{
 		}
 
     environment {
-        IMAGE_REFERENCE = "ghcr.io/ben4932042/ithome-crawler:latest"
+        IMAGE_REFERENCE = "docker.pkg.github.com/ben4932042/ithome-crawler/scrapy:latest"
     }
 
     stages{
