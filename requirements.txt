@@ -3,3 +3,4 @@ pydantic
 Scrapy
 scrapy-poet
 web-poet
+spidermon

@@ -160,7 +160,9 @@ disable=raw-checker-failed,
         invalid-name,
         missing-class-docstring,
         missing-function-docstring,
-        too-few-public-methods
+        too-few-public-methods,
+        no-self-use
+
 
 
 

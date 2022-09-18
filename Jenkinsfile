@@ -32,6 +32,7 @@ pipeline{
             steps{
                 sh '''
                 source venv/bin/activate
+                export PYTHONPATH=${PWD}
                 pylint --fail-under=10 src
                 '''
             }
@@ -40,6 +41,7 @@ pipeline{
             steps{
                 sh '''
                 source venv/bin/activate
+                export PYTHONPATH=${PWD}
                 pytest tests
                 '''
             }
