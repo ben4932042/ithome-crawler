@@ -12,7 +12,7 @@ pipeline{
             steps{
                 withCredentials([usernamePassword(credentialsId: 'github-registry-secret', usernameVariable: 'USER', passwordVariable: 'TOKEN')]){
                     script{
-                        sh "docker login docker.pkg.github.com -u docker-user -p docker-token"
+                        sh "docker login docker.pkg.github.com -u ${USER} -p ${TOKEN}"
                     }
                 }
             }
