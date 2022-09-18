@@ -4,7 +4,7 @@ pipeline{
 		}
 
     environment {
-        IMAGE_REFERENCE = "docker.pkg.github.com/ben4932042/ithome-crawler/scrapy:latest"
+        IMAGE_REFERENCE = "docker.pkg.github.com/ben4932042/ithome-crawler/scrapy:${env.BRANCH_NAME}"
     }
 
     stages{
@@ -47,11 +47,17 @@ pipeline{
             }
         }
         stage("Build"){
+            when {
+                branch "main"
+            }
             steps{
                 sh "docker build -t ${IMAGE_REFERENCE} ."
             }
         }
         stage("Push"){
+            when {
+                branch "main"
+            }
             steps{
                 sh "docker push ${IMAGE_REFERENCE}"
             }
