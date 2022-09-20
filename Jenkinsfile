@@ -26,9 +26,10 @@ pipeline{
                stage("Setup requirements") {
                    steps {
                        sh """
-                        pip3 install -r requirements.txt --user
-                        pip3 install pylint --user
-                        pip3 install pytest --user
+												whoami
+                        pip3 install -r requirements.txt
+                        pip3 install pylint
+                        pip3 install pytest
                        """
                    }
                }
