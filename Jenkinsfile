@@ -49,7 +49,7 @@ pipeline{
                    steps {
                        sh """              
                         export PYTHONPATH=${WORKSPACE}
-                        pytest tests"
+                        pytest tests
                         """
                    }
                }
