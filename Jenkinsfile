@@ -1,7 +1,7 @@
 pipeline{
     agent {
-			label 'gcp-agent-1'
-		}
+            label 'gcp-agent-1'
+        }
 
     environment {
         IMAGE_REFERENCE = "docker.pkg.github.com/ben4932042/ithome-crawler/scrapy:${env.BRANCH_NAME}"
@@ -17,35 +17,39 @@ pipeline{
                 }
             }
         }
-        stage("Setup virtual env"){
-            steps{
-                sh '''#!/bin/bash
-                virtualenv venv
-                source venv/bin/activate
-                pip3 install -r requirements.txt
-                pip3 install pylint
-                pip3 install pytest
-                '''
+
+        stage("build and test the project") {
+            agent {
+                docker "our-build-tools-image"
             }
-        }                                               
-        stage("Lint"){
-            steps{
-                sh '''
-                source venv/bin/activate
-                export PYTHONPATH=${PWD}
-                pylint --fail-under=10 src
-                '''
+            stages {
+               stage("Setup requirements") {
+                   steps {
+                       sh """
+                        pip3 install -r requirements.txt
+                        pip3 install pylint
+                        pip3 install pytest
+                       """
+                   }
+               }
+
+               stage("Lint") {
+                    steps{
+                        sh "pylint --fail-under=10 src"
+                    }
+               }
+
+               stage("Test") {
+                   steps {
+                       sh """              
+                        export PYTHONPATH=${PWD}
+                        pytest tests"
+                        """
+                   }
+               }
             }
         }
-        stage("Test"){
-            steps{
-                sh '''
-                source venv/bin/activate
-                export PYTHONPATH=${PWD}
-                pytest tests
-                '''
-            }
-        }
+
         stage("Build"){
             when {
                 branch "main"
@@ -54,6 +58,7 @@ pipeline{
                 sh "docker build -t ${IMAGE_REFERENCE} ."
             }
         }
+
         stage("Push"){
             when {
                 branch "main"
