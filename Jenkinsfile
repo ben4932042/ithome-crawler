@@ -39,7 +39,7 @@ pipeline{
                stage("Lint") {
                     steps{
                         sh """
-													export PYTHONPATH=${pwd}
+													export PYTHONPATH=${WORKSPACE}
 													pylint --fail-under=10 src
 												"""
                     }
@@ -48,7 +48,7 @@ pipeline{
                stage("Test") {
                    steps {
                        sh """              
-                        export PYTHONPATH=${pwd}
+                        export PYTHONPATH=${WORKSPACE}
                         pytest tests"
                         """
                    }
