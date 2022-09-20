@@ -39,7 +39,10 @@ pipeline{
 
                stage("Lint") {
                     steps{
-                        sh "pylint --fail-under=10 src"
+                        sh """
+													export PYTHONPATH=${PWD}
+													pylint --fail-under=10 src
+												"""
                     }
                }
 
