@@ -21,9 +21,9 @@ pipeline{
         stage("build and test the project") {
             agent {
                 docker { 
-									image "python:3.7-slim"
-								  args '-u root'
-								}
+                        image "python:3.7-slim"
+                        args '-u root'
+                    }
             }
             stages {
                stage("Setup requirements") {
@@ -39,9 +39,9 @@ pipeline{
                stage("Lint") {
                     steps{
                         sh """
-													export PYTHONPATH=${WORKSPACE}
-													pylint --fail-under=10 src
-												"""
+                            export PYTHONPATH=${WORKSPACE}
+                            pylint --fail-under=10 src
+                        """
                     }
                }
 
@@ -78,5 +78,5 @@ pipeline{
         always{
             cleanWs()
         }
-    }   
+    }
 }
