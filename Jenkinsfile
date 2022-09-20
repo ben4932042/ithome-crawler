@@ -29,7 +29,6 @@ pipeline{
                stage("Setup requirements") {
                    steps {
                        sh """
-												whoami
                         pip3 install -r requirements.txt
                         pip3 install pylint
                         pip3 install pytest
@@ -40,7 +39,7 @@ pipeline{
                stage("Lint") {
                     steps{
                         sh """
-													export PYTHONPATH=${PWD}
+													export PYTHONPATH=${pwd}
 													pylint --fail-under=10 src
 												"""
                     }
@@ -49,7 +48,7 @@ pipeline{
                stage("Test") {
                    steps {
                        sh """              
-                        export PYTHONPATH=${PWD}
+                        export PYTHONPATH=${pwd}
                         pytest tests"
                         """
                    }
