@@ -20,8 +20,10 @@ pipeline{
 
         stage("build and test the project") {
             agent {
-                docker "python:3.7-slim"
-								args '-u root'
+                docker { 
+									image "python:3.7-slim"
+								  args '-u root'
+								}
             }
             stages {
                stage("Setup requirements") {
