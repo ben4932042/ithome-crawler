@@ -10,7 +10,10 @@ pipeline{
     stages{
         stage("Setup registry auth"){
             when {
-                branch "main"
+                anyOf{
+                    branch "main"
+                    tag
+                }
             }            
             steps{
                 withCredentials([usernamePassword(credentialsId: 'github-registry-secret', usernameVariable: 'USER', passwordVariable: 'TOKEN')]){
@@ -61,8 +64,11 @@ pipeline{
 
         stage("Build"){
             when {
-                branch "main"
-            }
+                anyOf{
+                    branch "main"
+                    tag
+                }
+            } 
             steps{
                 sh "docker build -t ${IMAGE_REFERENCE} ."
             }
@@ -70,8 +76,11 @@ pipeline{
 
         stage("Push"){
             when {
-                branch "main"
-            }
+                anyOf{
+                    branch "main"
+                    tag
+                }
+            } 
             steps{
                 sh "docker push ${IMAGE_REFERENCE}"
             }
