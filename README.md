@@ -38,4 +38,4 @@ scrapy crawl ithome
 | view            | int      | 450                                            |
 | article_id      | int      | 10287313                                       |
 | article_url     | str      | https://ithelp.ithome.com.tw/articles/10287313 |
-| create_datetime | datetime |                                                |
+| create_datetime | datetime | ISODate("2022-09-20T00:32:35.000Z")            |
