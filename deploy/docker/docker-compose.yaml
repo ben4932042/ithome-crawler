@@ -4,7 +4,7 @@ services:
     image: ghcr.io/ben4932042/ithome-crawler/scrapy:main
     container_name: ithome_crawler
     hostname: ithome_crawler  
-    command: "cat /dev/null"
+    command: "scrapy crawl ithome"
     environment:
       - MONGO_HOST="mongodb://mongo:27017"
       - MONGO_DB="ithome_ironman"
