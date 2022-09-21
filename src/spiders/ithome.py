@@ -66,13 +66,15 @@ class IthomeSpider(scrapy.Spider):
     """main function"""
     name = 'ithome'
     allowed_domains = ['ithelp.ithome.com.tw']
-    start_urls = [
-        'https://ithelp.ithome.com.tw/2022ironman/signup/list?group=devops&page=1',
-        #'https://ithelp.ithome.com.tw/2022ironman/signup/list?group=devops&page=2',
-        #'https://ithelp.ithome.com.tw/2022ironman/signup/list?group=devops&page=3',
-    ]
 
-    def parse(self, response, homepage: HomePage):
+    def start_requests(self):
+        """overwrite start request method"""
+        _start_url = 'https://ithelp.ithome.com.tw/2022ironman/signup/list'
+        _group = 'devops'
+        for url in [f"{_start_url}?group={_group}&page={page+1}" for page in range(3)]:   
+            yield scrapy.Request(url=url, callback=self.parse_home)
+
+    def parse_home(self, response, homepage: HomePage):
         for user_ironman_page_url in homepage.get_all_user_ironman_url():
             yield response.follow(
                 user_ironman_page_url,
