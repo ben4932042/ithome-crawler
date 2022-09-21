@@ -1,0 +1,6 @@
+apiVersion: v2
+name: ithome_crawler
+description: ithome ironman crawler
+type: application
+version: 0.0.0
+appVersion: "1.16.0"
