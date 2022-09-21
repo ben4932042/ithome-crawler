@@ -8,12 +8,34 @@ from web_poet import ItemWebPage, WebPage
 from src.items import ArticleItem
 from src.items import ContentItem
 from src.items import IthomeIronManItem
+from src.items import IthomeUserInfoItem
 
 
 class HomePage(WebPage):
     def get_all_user_ironman_url(self) -> list:
         """get each user ironman page url from 2022ironman page"""
         return self.xpath('//div[@class="list-card"]//div[@class="col-md-10"]//a[@class="contestants-list__title title"]/@href').extract()
+    
+    def get_all_user_url(self) -> list:
+        return [url.split('/ironman', maxsplit=1)[0] for url in self.get_all_user_ironman_url()]
+
+class UserPage(WebPage):
+    def to_item(self) -> IthomeUserInfoItem:
+        """get ithome user info"""
+        profile_list = self.xpath('.//ul[@class="list-inline profile-nav__list"]/li/a/span/text()').extract()
+        return IthomeUserInfoItem(
+            user_id = parse.parse("https://ithelp.ithome.com.tw/users/{user_id}", self.url)['user_id'],
+            user_name = self.xpath('.//div[@class="profile-header__name"]/text()').extract_first().strip(),
+            ithome_level = self.xpath('.//div[@class="profile-header__text"]/text()').extract_first().strip().split(" ‧ ", maxsplit=1)[0],
+            ithome_point = self.xpath('.//div[@class="profile-header__text"]/a/text()').extract_first().strip(),
+            user_viewed = self.xpath('//span[@class="profile-header__view-num"]/text()').extract_first(),
+            user_followed = self.xpath('//span[@class="profile-header__follow-num"]/text()').extract_first(),
+            ask_question = profile_list[0],
+            article = profile_list[1],
+            answer = profile_list[2],
+            invitation_answer = profile_list[3],
+            best_answer = profile_list[4],
+        )
 
 class UserHomePage(WebPage):
     """ithome ironman user home page extract logic"""
@@ -75,11 +97,19 @@ class IthomeSpider(scrapy.Spider):
             yield scrapy.Request(url=url, callback=self.parse_home)
 
     def parse_home(self, response, homepage: HomePage):
-        for user_ironman_page_url in homepage.get_all_user_ironman_url():
+        # for user_ironman_page_url in homepage.get_all_user_ironman_url():
+        #     yield response.follow(
+        #         user_ironman_page_url,
+        #         callback=self.parse_title,
+        #     )
+        for user_url in homepage.get_all_user_url():
             yield response.follow(
-                user_ironman_page_url,
-                callback=self.parse_title,
+                user_url,
+                callback=self.parse_user_info,
             )
+  
+    def parse_user_info(self, response, content: UserPage):
+        yield content.to_item()
 
     def parse_title(self, response, homepage: UserHomePage, content: ArticlePage) -> ArticleItem:
         """get page1 item and yield to page 2 and page 3 if exist"""

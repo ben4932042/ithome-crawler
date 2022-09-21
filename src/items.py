@@ -21,3 +21,21 @@ class ContentItem(pydantic.BaseModel):
 
 class IthomeIronManItem(ArticleItem,ContentItem):
     """ithome article and content info"""
+    source: str = "ithome_iron_man_item"
+
+class IthomeUserInfoItem(pydantic.BaseModel):
+    """ithome user info"""
+    source: str = "ithome_user_info_item"
+    user_id: int
+    user_name: str
+    ithome_level: str
+    ithome_point: int
+    user_viewed: int
+    user_followed: int
+    ask_question: int
+    article: int
+    answer: int
+    invitation_answer: int
+    best_answer: int
+
+
