@@ -12,7 +12,7 @@ pipeline{
             when {
                 anyOf{
                     branch "main"
-                    tag
+                    tag "*"
                 }
             }            
             steps{
@@ -66,7 +66,7 @@ pipeline{
             when {
                 anyOf{
                     branch "main"
-                    tag
+                    tag "*"
                 }
             } 
             steps{
@@ -78,7 +78,7 @@ pipeline{
             when {
                 anyOf{
                     branch "main"
-                    tag
+                    tag "*"
                 }
             } 
             steps{
