@@ -97,11 +97,11 @@ class IthomeSpider(scrapy.Spider):
             yield scrapy.Request(url=url, callback=self.parse_home)
 
     def parse_home(self, response, homepage: HomePage):
-        # for user_ironman_page_url in homepage.get_all_user_ironman_url():
-        #     yield response.follow(
-        #         user_ironman_page_url,
-        #         callback=self.parse_title,
-        #     )
+        for user_ironman_page_url in homepage.get_all_user_ironman_url():
+            yield response.follow(
+                user_ironman_page_url,
+                callback=self.parse_title,
+            )
         for user_url in homepage.get_all_user_url():
             yield response.follow(
                 user_url,
