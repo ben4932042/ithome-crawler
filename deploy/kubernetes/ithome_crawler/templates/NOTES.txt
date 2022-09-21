@@ -1,0 +1,3 @@
+Ithome crawler
+
+1. cronjob: "{{ .Values.schedule }}"

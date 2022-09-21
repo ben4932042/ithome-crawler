@@ -9,6 +9,9 @@ pipeline{
 
     stages{
         stage("Setup registry auth"){
+            when {
+                branch "main"
+            }            
             steps{
                 withCredentials([usernamePassword(credentialsId: 'github-registry-secret', usernameVariable: 'USER', passwordVariable: 'TOKEN')]){
                     script{

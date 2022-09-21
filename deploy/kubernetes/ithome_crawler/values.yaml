@@ -1,0 +1,15 @@
+replicaCount: 1
+
+image:
+  repository: ghcr.io/ben4932042/ithome-crawler/scrapy
+  pullPolicy: Always
+  tag: "main"
+
+schedule: "0 0 * * *"
+
+env:
+  mongo:
+    host: "mongodb://localhost:27017"
+    db: "ithome_ironman"
+
+nodeSelector: {}
