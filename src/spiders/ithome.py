@@ -15,7 +15,7 @@ class HomePage(WebPage):
     def get_all_user_ironman_url(self) -> list:
         """get each user ironman page url from 2022ironman page"""
         return self.xpath('//div[@class="list-card"]//div[@class="col-md-10"]//a[@class="contestants-list__title title"]/@href').extract()
-    
+
     def get_all_user_url(self) -> list:
         return [url.split('/ironman', maxsplit=1)[0] for url in self.get_all_user_ironman_url()]
 
@@ -107,7 +107,7 @@ class IthomeSpider(scrapy.Spider):
                 user_url,
                 callback=self.parse_user_info,
             )
-  
+
     def parse_user_info(self, response, content: UserPage):
         yield content.to_item()
 

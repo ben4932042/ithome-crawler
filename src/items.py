@@ -37,5 +37,3 @@ class IthomeUserInfoItem(pydantic.BaseModel):
     answer: int
     invitation_answer: int
     best_answer: int
-
-
