@@ -1,4 +1,4 @@
-# pylint: disable=too-few-public-methods, unused-argument, super-init-not-called, arguments-differ, arguments-differ, line-too-long
+# pylint: disable=too-few-public-methods, unused-argument, super-init-not-called, arguments-differ, arguments-differ, line-too-long, abstract-method
 """ithome crawler"""
 from typing import List
 import datetime
@@ -71,7 +71,7 @@ class IthomeSpider(scrapy.Spider):
         """overwrite start request method"""
         _start_url = 'https://ithelp.ithome.com.tw/2022ironman/signup/list'
         _group = 'devops'
-        for url in [f"{_start_url}?group={_group}&page={page+1}" for page in range(3)]:   
+        for url in [f"{_start_url}?group={_group}&page={page+1}" for page in range(3)]:
             yield scrapy.Request(url=url, callback=self.parse_home)
 
     def parse_home(self, response, homepage: HomePage):
@@ -95,7 +95,7 @@ class IthomeSpider(scrapy.Spider):
                 url=item.article_url,
                 callback=self.parse_content,
                 meta = {'article': item}
-            )                     
+            )
 
     def parse_article(self, response, content: ArticlePage) -> ArticleItem:
         """page 2 and page 3 get item process"""
@@ -108,4 +108,3 @@ class IthomeSpider(scrapy.Spider):
         article_obj = response.meta['article']
 
         yield IthomeIronManItem(**content_obj.dict(), **article_obj.dict())
-      
