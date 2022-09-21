@@ -5,3 +5,4 @@ scrapy-poet==0.5.1
 web-poet==0.4.0
 spidermon==1.16.2
 pymongo==4.2.0
+parse==1.19.0
