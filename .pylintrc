@@ -161,7 +161,8 @@ disable=raw-checker-failed,
         missing-class-docstring,
         missing-function-docstring,
         too-few-public-methods,
-        no-self-use
+        no-self-use,
+        import-error
 
 
 

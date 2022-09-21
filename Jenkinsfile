@@ -30,8 +30,8 @@ pipeline{
                    steps {
                        sh """
                         pip3 install -r requirements.txt
-                        pip3 install pylint
-                        pip3 install pytest
+                        pip3 install pylint=='2.13.7'
+                        pip3 install pytest=='7.1.2'
                        """
                    }
                }
