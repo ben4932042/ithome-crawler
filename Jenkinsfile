@@ -5,6 +5,7 @@ pipeline{
 
     environment {
         IMAGE_REFERENCE = "docker.pkg.github.com/ben4932042/ithome-crawler/scrapy:${env.BRANCH_NAME}"
+        IMAGE_LATEST = "docker.pkg.github.com/ben4932042/ithome-crawler/scrapy:latest"
     }
 
     stages{
@@ -54,8 +55,8 @@ pipeline{
                stage("Test") {
                    steps {
                        sh """              
-                        export PYTHONPATH=${WORKSPACE}
-                        pytest tests
+                            export PYTHONPATH=${WORKSPACE}
+                            pytest tests
                         """
                    }
                }
@@ -85,6 +86,17 @@ pipeline{
                 sh "docker push ${IMAGE_REFERENCE}"
             }
         }
+        stage("Update Latest image"){
+            when {
+                tag "*"
+            } 
+            steps{
+                sh """
+                    docker tag ${IMAGE_REFERENCE} ${IMAGE_LATEST}
+                    docker push ${IMAGE_LATEST}
+                """
+            }
+        }        
     }
     post{
         always{
