@@ -6,8 +6,8 @@ services:
     hostname: ithome_crawler  
     command: "scrapy crawl ithome"
     environment:
-      - MONGO_HOST="mongodb://mongo:27017"
-      - MONGO_DB="ithome_ironman"
+      - MONGO_HOST=mongodb://mongo:27017
+      - MONGO_DB=ithome_ironman
   mongo:
     image: mongo
     container_name: mongodb
