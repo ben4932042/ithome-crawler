@@ -2,7 +2,7 @@
 """ithome crawler: main function to define crawler process flow"""
 import scrapy
 from src.handlers import HomePage, UserPage, UserHomePage, ArticlePage, ContentPage
-from src.items import ArticleItem, IthomeIronManItem
+from src.items import IthomeIronManItem, IthomeUserInfoItem
 
 
 class IthomeSpider(scrapy.Spider):
@@ -23,7 +23,7 @@ class IthomeSpider(scrapy.Spider):
         for user_ironman_page_url in homepage.get_all_user_ironman_url():
             yield response.follow(
                 user_ironman_page_url,
-                callback=self.parse_title,
+                callback=self.parse_user_home,
             )
         for user_url in homepage.get_all_user_url():
             yield response.follow(
@@ -31,17 +31,17 @@ class IthomeSpider(scrapy.Spider):
                 callback=self.parse_user_info,
             )
 
-    def parse_user_info(self, response, content: UserPage):
+    def parse_user_info(self, response, content: UserPage) -> IthomeUserInfoItem:
         """sample: https://ithelp.ithome.com.tw/users/20151613"""
         yield content.to_item()
 
-    def parse_title(self, response, homepage: UserHomePage) -> ArticleItem:
+    def parse_user_home(self, response, homepage: UserHomePage):
         """get page1 item and yield to page 2 and page 3 if exist
         example: https://ithelp.ithome.com.tw/users/20151613/ironman/5333"""
         for next_page_url in homepage.get_next_page_url:
             yield response.follow(url=next_page_url, callback=self.parse_article)
 
-    def parse_article(self, response, content: ArticlePage) -> ArticleItem:
+    def parse_article(self, response, content: ArticlePage):
         """page 2 and page 3 get article info process
         example: https://ithelp.ithome.com.tw/users/20151613/ironman/5333?page=2"""
         for item in content.to_item():
