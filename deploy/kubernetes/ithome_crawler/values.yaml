@@ -1,5 +1,3 @@
-replicaCount: 1
-
 image:
   repository: ghcr.io/ben4932042/ithome-crawler/scrapy
   pullPolicy: Always
