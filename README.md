@@ -8,7 +8,7 @@ scrapy crawl ithome
 
 ## Output Data
 ### User info
-- mongo collection name: user
+- mongo collection name: user_info
 
 | column_name       | type | example       | Description|
 |-------------------|------|---------------|---------------|
@@ -26,7 +26,7 @@ scrapy crawl ithome
 
 
 ### Content info
-- mongo collection name: devops_group
+- mongo collection name: content_info
 
 | column_name     | type     | example                                        |Description|
 |-----------------|----------|------------------------------------------------|----------|

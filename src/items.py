@@ -3,6 +3,11 @@
 import datetime
 import pydantic
 
+
+class DataAttributeItem(pydantic.BaseModel):
+    """data attribute"""
+    crawl_datetime: datetime.datetime = datetime.datetime.now()
+
 class ArticleItem(pydantic.BaseModel):
     """ithome aritcle info"""
     user_id: int
@@ -19,11 +24,11 @@ class ContentItem(pydantic.BaseModel):
     """ithome content info"""
     text: str
 
-class IthomeIronManItem(ArticleItem,ContentItem):
+class IthomeIronManItem(ArticleItem, ContentItem, DataAttributeItem):
     """ithome article and content info"""
     source: str = "ithome_iron_man_item"
 
-class IthomeUserInfoItem(pydantic.BaseModel):
+class IthomeUserInfoItem(DataAttributeItem):
     """ithome user info"""
     source: str = "ithome_user_info_item"
     user_id: int
