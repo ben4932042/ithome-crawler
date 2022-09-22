@@ -9,13 +9,7 @@ pipeline{
     }
 
     stages{
-        stage("Setup registry auth"){
-            when {
-                anyOf{
-                    branch "main"
-                    tag "*"
-                }
-            }            
+        stage("Setup registry auth"){           
             steps{
                 withCredentials([usernamePassword(credentialsId: 'github-registry-secret', usernameVariable: 'USER', passwordVariable: 'TOKEN')]){
                     script{
@@ -64,24 +58,12 @@ pipeline{
         }
 
         stage("Build"){
-            when {
-                anyOf{
-                    branch "main"
-                    tag "*"
-                }
-            } 
             steps{
                 sh "docker build -t ${IMAGE_REFERENCE} ."
             }
         }
 
         stage("Push"){
-            when {
-                anyOf{
-                    branch "main"
-                    tag "*"
-                }
-            } 
             steps{
                 sh "docker push ${IMAGE_REFERENCE}"
             }
