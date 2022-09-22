@@ -21,10 +21,10 @@ class IthomePipeline:
         source = item.pop('source')
         if source == "ithome_iron_man_item":
             item['_id'] = f"{item['user_id']}-{item['ironman_id']}-{item['article_id']}"
-            self.db.devops_group.insert_one(item)
+            self.db.content_info.insert_one(item)
         elif source == "ithome_user_info_item":
             item['_id'] = item['user_id']
-            self.db.user.insert_one(item)
+            self.db.user_info.insert_one(item)
         return item
 
     def close_spider(self, spider):
