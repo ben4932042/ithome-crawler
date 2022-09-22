@@ -1,3 +1,5 @@
+"""ithome crawler: main class to handler crawler where can the process get right info on html
+reference: https://github.com/scrapinghub/web-poet"""
 from typing import List
 import datetime
 import parse
