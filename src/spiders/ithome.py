@@ -18,7 +18,8 @@ class IthomeSpider(scrapy.Spider):
             yield scrapy.Request(url=url, callback=self.parse_home)
 
     def parse_home(self, response, homepage: HomePage):
-        """get ithome 2022ironman user url"""
+        """get ithome 2022ironman user url
+        sample: https://ithelp.ithome.com.tw/2022ironman/signup/list?group=devops&page=1"""
         for user_ironman_page_url in homepage.get_all_user_ironman_url():
             yield response.follow(
                 user_ironman_page_url,
@@ -31,17 +32,18 @@ class IthomeSpider(scrapy.Spider):
             )
 
     def parse_user_info(self, response, content: UserPage):
+        """sample: https://ithelp.ithome.com.tw/users/20151613"""
         yield content.to_item()
 
-    def parse_title(self, response, homepage: UserHomePage, content: ArticlePage) -> ArticleItem:
-        """get page1 item and yield to page 2 and page 3 if exist"""
-        page_url_list = homepage.get_next_page_url
-        for next_page_url in set(page_url_list):
-            yield response.follow(
-                url=next_page_url,
-                callback=self.parse_article,
-            )
+    def parse_title(self, response, homepage: UserHomePage) -> ArticleItem:
+        """get page1 item and yield to page 2 and page 3 if exist
+        example: https://ithelp.ithome.com.tw/users/20151613/ironman/5333"""
+        for next_page_url in homepage.get_next_page_url:
+            yield response.follow(url=next_page_url, callback=self.parse_article)
 
+    def parse_article(self, response, content: ArticlePage) -> ArticleItem:
+        """page 2 and page 3 get article info process
+        example: https://ithelp.ithome.com.tw/users/20151613/ironman/5333?page=2"""
         for item in content.to_item():
             yield response.follow(
                 url=item.article_url,
@@ -49,13 +51,9 @@ class IthomeSpider(scrapy.Spider):
                 meta = {'article': item}
             )
 
-    def parse_article(self, response, content: ArticlePage) -> ArticleItem:
-        """page 2 and page 3 get article info process"""
-        for item in content.to_item():
-            yield item
-
     def parse_content(self, response, content: ContentPage) -> IthomeIronManItem:
-        """get content text process"""
+        """get content text process
+        example: https://ithelp.ithome.com.tw/articles/10287199"""
         content_obj = content.to_item()
         article_obj = response.meta['article']
 

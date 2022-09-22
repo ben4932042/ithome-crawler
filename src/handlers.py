@@ -38,9 +38,12 @@ class UserPage(WebPage):
 class UserHomePage(WebPage):
     """ithome ironman user home page extract logic"""
     @property
-    def get_next_page_url(self) -> list:
+    def get_next_page_url(self) -> set:
         """get ironman next page url list"""
-        return self.xpath('//ul[@class="pagination"]/li/a/@href').extract()
+        url_list = self.xpath('//ul[@class="pagination"]/li/a/@href').extract()
+        if not url_list:
+            url_list = [f"{self.url}?page=1"]
+        return set(url_list)
 
 class ArticlePage(ItemWebPage):
     """ithome ironman user article extract logic"""
