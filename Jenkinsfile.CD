@@ -3,7 +3,7 @@ pipeline{
             label 'gcp-agent-1'
         }
     environment {
-        NAMESPACE = "prod"
+        K8S_NAMESPACE = "prod"
         CRONJOB = "50 20 * * *"
 
     }
@@ -14,9 +14,7 @@ pipeline{
                 withCredentials([string(credentialsId: 'mongo-connection', variable: 'MONGO_HOST')]){
                     script{
                         sh """
-                        cd deploy/kubernetes/ithome_crawler
-
-                        helm upgrade ithome-crawler . --install --namespace ${NAMESPACE}\
+                        helm upgrade ithome-crawler deploy/kubernetes/ithome_crawler --install --namespace ${K8S_NAMESPACE}\
                             --set schedule=${CRONJOB} \
                             --set env.mongo.host=${MONGO_HOST} \
                             --set env.mongo.db=ithome_ironman \
