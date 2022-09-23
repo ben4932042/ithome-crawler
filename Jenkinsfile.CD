@@ -4,10 +4,10 @@ pipeline{
         }
     parameters {
         string(name: 'IMAGE_TAG', defaultValue: 'latest')
+        string(name: 'K8S_CRONJOB')
     }
     environment {
         K8S_NAMESPACE = "prod"
-        K8S_CRONJOB = "50 20 * * *"
     }
 
     stages{
