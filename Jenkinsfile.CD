@@ -1,0 +1,34 @@
+pipeline{
+    agent {
+            label 'gcp-agent-1'
+        }
+    environment {
+        NAMESPACE = "prod"
+        CRONJOB = "50 20 * * *"
+
+    }
+
+    stages{
+        stage("Setup registry auth"){           
+            steps{
+                withCredentials([string(credentialsId: 'mongo-connection', variable: 'MONGO_HOST')])
+                    script{
+                        sh """
+                        cd deploy/kubernetes/ithome_crawler
+
+                        helm upgrade ithome-crawler . --install --namespace ${NAMESPACE}\
+                            --set schedule=${CRONJOB} \
+                            --set env.mongo.host=${MONGO_HOST} \
+                            --set env.mongo.db=ithome_ironman \
+                            --set image.tag=latest
+                        """
+                    }
+            }
+        }
+    }
+    post{
+        always{
+            cleanWs()
+        }
+    }
+}
