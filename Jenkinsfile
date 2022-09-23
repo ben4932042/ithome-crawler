@@ -70,7 +70,7 @@ pipeline{
         }
         stage("Update Latest image"){
             when {
-                tag "*"
+                branch "main"
             } 
             steps{
                 sh """
