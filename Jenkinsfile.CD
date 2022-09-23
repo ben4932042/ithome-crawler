@@ -2,10 +2,12 @@ pipeline{
     agent {
             label 'gcp-agent-1'
         }
+    parameters {
+        string(name: 'IMAGE_TAG', defaultValue: 'latest')
+    }
     environment {
         K8S_NAMESPACE = "prod"
         K8S_CRONJOB = "50 20 * * *"
-
     }
 
     stages{
@@ -18,7 +20,7 @@ pipeline{
                             --set schedule="${K8S_CRONJOB}" \
                             --set env.mongo.host="${MONGO_HOST}" \
                             --set env.mongo.db=ithome_ironman \
-                            --set image.tag=latest
+                            --set image.tag=${IMAGE_TAG}
                         """
                     }
                 }
