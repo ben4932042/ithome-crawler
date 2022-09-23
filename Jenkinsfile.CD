@@ -4,7 +4,7 @@ pipeline{
         }
     environment {
         K8S_NAMESPACE = "prod"
-        CRONJOB = "50 20 * * *"
+        K8S_CRONJOB = "50 20 * * *"
 
     }
 
@@ -15,7 +15,7 @@ pipeline{
                     script{
                         sh """
                         helm upgrade ithome-crawler deploy/kubernetes/ithome_crawler --install --namespace ${K8S_NAMESPACE}\
-                            --set schedule=${CRONJOB} \
+                            --set schedule=${K8S_CRONJOB} \
                             --set env.mongo.host=${MONGO_HOST} \
                             --set env.mongo.db=ithome_ironman \
                             --set image.tag=latest
