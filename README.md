@@ -49,10 +49,11 @@ scrapy crawl ithome
 | create_datetime | datetime | ISODate("2022-09-20T00:32:35.000Z")            |鐵人賽文章發表時間|
 
 
-- big query table: content_info_tmp, content_info_view_change
-| column_name     | type     | example                                        |Description|
-|-----------------|----------|------------------------------------------------|----------|
-| ironman_id      | int      | 5333                                           |鐵人賽 ID|
-| article_id      | int      | 10287313                                       |鐵人賽文章 ID|
-| view            | int      | 450                                            |鐵人賽文章觀看數|
-| crawl_datetime  | datetime | ISODate("2022-09-20T00:32:35.000Z")            |資料爬取時間|
+- big query table: content_info_view_change
+
+| column_name     | type     | example                            |Description|
+|-----------------|----------|------------------------------------|----------|
+| ironman_id      | int      | 5333                               |鐵人賽 ID|
+| article_id      | int      | 10287313                           |鐵人賽文章 ID|
+| view            | int      | 450                                |鐵人賽文章觀看數|
+| crawl_datetime  | datetime | ISODate("2022-09-20T00:32:35.000Z")|資料爬取時間|
