@@ -9,9 +9,9 @@ pipeline{
     }
 
     stages{
-        stage("Setup registry auth"){           
+        stage("Deploy to k8s"){           
             steps{
-                withCredentials([string(credentialsId: 'mongo-connection', variable: 'MONGO_HOST')])
+                withCredentials([string(credentialsId: 'mongo-connection', variable: 'MONGO_HOST')]){
                     script{
                         sh """
                         cd deploy/kubernetes/ithome_crawler
@@ -23,6 +23,7 @@ pipeline{
                             --set image.tag=latest
                         """
                     }
+                }
             }
         }
     }
