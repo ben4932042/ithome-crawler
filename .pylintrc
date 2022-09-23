@@ -162,7 +162,8 @@ disable=raw-checker-failed,
         missing-function-docstring,
         too-few-public-methods,
         no-self-use,
-        import-error
+        import-error,
+        consider-using-set-comprehension
 
 
 
