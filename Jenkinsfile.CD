@@ -3,14 +3,24 @@ pipeline{
             label 'gcp-agent-1'
         }
     parameters {
-        string(name: 'IMAGE_TAG', defaultValue: 'latest')
+        string(name: 'IMAGE_TAG')
         string(name: 'K8S_CRONJOB')
+        string(name: 'K8S_NAMESPACE')
     }
-    environment {
-        K8S_NAMESPACE = "prod"
-    }
-
     stages{
+        stage("Tag job"){
+            steps {
+                script{
+                    currentBuild.description = """
+                        <ul>
+                            <li>Release tag  @ ${params.IMAGE_TAG}</li>
+                            <li>Deploy namespace @ ${params.K8S_NAMESPACE}</li>
+                            <li>Cronjob @ ${params.K8S_CRONJOB}</li>
+                        </ul>                        
+                    """
+                }
+            }
+        }
         stage("Deploy to k8s"){           
             steps{
                 withCredentials([string(credentialsId: 'mongo-connection', variable: 'MONGO_HOST')]){
