@@ -98,6 +98,19 @@ pipeline{
     post{
         always{
             cleanWs()
+        }        
+        failure{
+            script {
+                withCredentials([string(credentialsId: 'ithome-telegram-bot-token', variable: 'TOKEN')]){
+                    withCredentials([string(credentialsId: 'ithome-telegram-notification-group', variable: 'GROUP_ID')]){                
+                    sh '''
+                        message="[Failed] Pipeline ${JOB_BASE_NAME}.\nBranch Name: ${env.BRANCH_NAME}\n ${BUILD_URL}"
+                        curl -X GET https://api.telegram.org/bot${TOKEN}/sendMessage -d "chat_id=${GROUP_ID}&text=${message}"
+                    '''
+                    }
+                }
+            }
         }
+
     }
 }
