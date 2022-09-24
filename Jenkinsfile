@@ -87,7 +87,7 @@ pipeline{
                 build(
                     job: 'ithome-crawler-cd',
                     parameters: [
-                        string(name: 'K8S_NAMESPACE', value: 'prod')
+                        string(name: 'K8S_NAMESPACE', value: 'prod'),
                         string(name: 'IMAGE_TAG', value: ${env.BRANCH_NAME}),
                         string(name: 'K8S_CRONJOB', value: '0 16 * * *'),
                     ]
