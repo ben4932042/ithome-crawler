@@ -78,6 +78,21 @@ pipeline{
                     docker push ${IMAGE_LATEST}
                 """
             }
+        }
+        stage("Deploy to kubernetes"){
+            when {
+                tag "*"
+            } 
+            steps{
+                build(
+                    job: 'ithome-crawler-cd',
+                    parameters: [
+                        string(name: 'K8S_NAMESPACE', value: 'prod')
+                        string(name: 'IMAGE_TAG', value: ${env.BRANCH_NAME}),
+                        string(name: 'K8S_CRONJOB', value: '0 16 * * *'),
+                    ]
+                )
+            }
         }        
     }
     post{
